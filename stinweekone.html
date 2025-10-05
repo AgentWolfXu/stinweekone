@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STIN • Presentation</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --purple-900: #4c1d95;
+            --purple-800: #5b21b6;
+            --purple-700: #6d28d9;
+            --purple-600: #7c3aed;
+            --purple-500: #8b5cf6;
+            --purple-400: #a78bfa;
+            --purple-300: #c4b5fd;
+            --purple-200: #ddd6fe;
+            --purple-100: #ede9fe;
+            --purple-50: #f5f3ff;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            cursor: none;
+        }
+        
+        /* Ultra-premium cursor */
+        .cursor {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--purple-400);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transition: all 0.15s cubic-bezier(0.23, 1, 0.32, 1);
+            mix-blend-mode: difference;
+        }
+        
+        .cursor-follower {
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(135deg, var(--purple-400), var(--purple-300));
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 0 20px var(--purple-400);
+        }
+        
+        .slide-container {
+            width: 100vw;
+            height: 56.25vw;
+            max-height: 100vh;
+            max-width: 177.78vh;
+            position: relative;
+            background: #000;
+            box-shadow: 0 0 120px rgba(139, 92, 246, 0.4);
+            overflow: hidden;
+            border-radius: 0;
+        }
+        
+        /* Enhanced animated grid */
+        .bg-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(139, 92, 246, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(139, 92, 246, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridMove 25s linear infinite;
+            opacity: 0.5;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
+        
+        /* Floating gradient orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.2;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        .orb-1 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--purple-500), transparent);
+            top: -250px;
+            left: -250px;
+            animation-delay: 0s;
+        }
+        
+        .orb-2 {
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, var(--purple-600), transparent);
+            bottom: -200px;
+            right: -200px;
+            animation-delay: 7s;
+        }
+        
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--purple-400), transparent);
+            top: 50%;
+            right: 15%;
+            animation-delay: 14s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(40px, -40px) scale(1.15); }
+            66% { transform: translate(-30px, 30px) scale(0.85); }
+        }
+        
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: radial-gradient(ellipse at top, rgba(10, 10, 20, 0.92) 0%, rgba(0, 0, 0, 0.96) 100%);
+        }
+        
+        .slide.active {
+            display: flex;
+        }
+        
+        .slide.active .content > * {
+            animation: slideUpFade 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+        }
+        
+        .slide.active .content > *:nth-child(1) { animation-delay: 0.1s; }
+        .slide.active .content > *:nth-child(2) { animation-delay: 0.2s; }
+        .slide.active .content > *:nth-child(3) { animation-delay: 0.3s; }
+        .slide.active .content > *:nth-child(4) { animation-delay: 0.4s; }
+        .slide.active .content > *:nth-child(5) { animation-delay: 0.5s; }
+        .slide.active .content > *:nth-child(6) { animation-delay: 0.6s; }
+        
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+                filter: blur(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+        
+        .content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 3.5vw 6vw;
+        }
+        
+        h1 {
+            font-size: 6vw;
+            font-weight: 900;
+            letter-spacing: -0.08em;
+            line-height: 0.85;
+            background: linear-gradient(135deg, #fff 0%, var(--purple-100) 40%, var(--purple-300) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.8vw;
+            position: relative;
+            text-transform: uppercase;
+        }
+        
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -0.6vw;
+            left: 0;
+            width: 8vw;
+            height: 0.35vw;
+            background: linear-gradient(90deg, var(--purple-400), transparent);
+            border-radius: 2vw;
+            box-shadow: 0 0 10px var(--purple-400);
+        }
+        
+        h2 {
+            font-size: 3.5vw;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            line-height: 1;
+            margin-bottom: 1.8vw;
+            position: relative;
+        }
+        
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -0.9vw;
+            left: 0;
+            width: 5vw;
+            height: 0.25vw;
+            background: linear-gradient(90deg, var(--purple-400), transparent);
+            border-radius: 2vw;
+            box-shadow: 0 0 8px var(--purple-400);
+        }
+        
+        h3 {
+            font-size: 0.85vw;
+            font-weight: 700;
+            margin: 1.2vw 0 0.7vw 0;
+            color: var(--purple-200);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0.95;
+        }
+        
+        p {
+            font-size: 1.05vw;
+            line-height: 1.75;
+            margin-bottom: 0.9vw;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.92);
+            letter-spacing: -0.01em;
+        }
+        
+        .subtitle {
+            font-size: 1.5vw;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.65);
+            letter-spacing: 0.02em;
+        }
+        
+        ul {
+            list-style: none;
+            margin: 1vw 0;
+        }
+        
+        ul li {
+            font-size: 1vw;
+            line-height: 1.9;
+            margin-bottom: 0.75vw;
+            font-weight: 400;
+            padding-left: 1.8vw;
+            position: relative;
+            color: rgba(255, 255, 255, 0.88);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        ul li:hover {
+            transform: translateX(0.6vw);
+            color: #fff;
+        }
+        
+        ul li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.75vw;
+            width: 0.45vw;
+            height: 0.45vw;
+            background: linear-gradient(135deg, var(--purple-300), var(--purple-500));
+            border-radius: 50%;
+            box-shadow: 0 0 1.2vw var(--purple-400);
+        }
+        
+        .card {
+            background: linear-gradient(135deg, 
+                rgba(139, 92, 246, 0.04) 0%, 
+                rgba(99, 102, 241, 0.025) 100%);
+            backdrop-filter: blur(50px);
+            border: 1px solid rgba(233, 213, 255, 0.08);
+            border-radius: 1.8vw;
+            padding: 2vw;
+            margin: 0.9vw 0;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(233, 213, 255, 0.08), 
+                transparent);
+            transition: left 0.7s ease;
+        }
+        
+        .card:hover::before {
+            left: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-0.5vw) scale(1.015);
+            border-color: rgba(196, 181, 253, 0.25);
+            box-shadow: 
+                0 1.2vw 3.5vw rgba(139, 92, 246, 0.25),
+                0 0.6vw 2vw rgba(167, 139, 250, 0.15),
+                inset 0 0 2.5vw rgba(233, 213, 255, 0.04);
+        }
+        
+        .card-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .card-3d:hover {
+            transform: perspective(1000px) rotateY(3deg) rotateX(3deg) scale(1.02) translateZ(10px);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(14vw, 1fr));
+            gap: 1.4vw;
+            margin: 1.4vw 0;
+        }
+        
+        .highlight {
+            background: linear-gradient(135deg, var(--purple-100) 0%, var(--purple-300) 50%, var(--purple-400) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(90deg, var(--purple-100), var(--purple-300), var(--purple-400), var(--purple-500));
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s linear infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+        
+        .tag {
+            display: inline-block;
+            background: linear-gradient(135deg, 
+                rgba(139, 92, 246, 0.1), 
+                rgba(99, 102, 241, 0.06));
+            border: 1px solid rgba(196, 181, 253, 0.2);
+            color: var(--purple-200);
+            padding: 0.55vw 1.3vw;
+            border-radius: 3vw;
+            font-size: 0.85vw;
+            font-weight: 600;
+            margin: 0.4vw 0.4vw 0.4vw 0;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 1.2vw rgba(139, 92, 246, 0.15);
+        }
+        
+        .tag:hover {
+            transform: translateY(-0.25vw) scale(1.05);
+            box-shadow: 0 0.6vw 2vw rgba(139, 92, 246, 0.35);
+            border-color: rgba(233, 213, 255, 0.35);
+        }
+        
+        .big-number {
+            font-size: 2.6vw;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, var(--purple-100) 50%, var(--purple-300) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 0.9vw;
+            letter-spacing: -0.05em;
+            filter: drop-shadow(0 0 1.5vw rgba(167, 139, 250, 0.25));
+        }
+        
+        .viz-container {
+            margin: 1.8vw 0;
+            padding: 2vw;
+            background: rgba(8, 8, 16, 0.7);
+            border-radius: 1.4vw;
+            border: 1px solid rgba(139, 92, 246, 0.12);
+            backdrop-filter: blur(30px);
+        }
+        
+        .bar {
+            height: 1.5vw;
+            background: linear-gradient(90deg, var(--purple-500), var(--purple-400), var(--purple-300));
+            border-radius: 0.75vw;
+            margin: 0.9vw 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 0.6vw 1.8vw rgba(139, 92, 246, 0.25),
+                inset 0 0.15vw 0.4vw rgba(255, 255, 255, 0.15);
+        }
+        
+        .bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255,255,255,0.35), 
+                transparent);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+        
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.4vw;
+            margin: 1.4vw 0;
+        }
+        
+        .stat-box {
+            text-align: center;
+            padding: 1.8vw;
+            background: linear-gradient(135deg, 
+                rgba(139, 92, 246, 0.06), 
+                rgba(99, 102, 241, 0.04));
+            border: 1px solid rgba(196, 181, 253, 0.12);
+            border-radius: 1.4vw;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(167, 139, 250, 0.12), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        
+        .stat-box:hover::before {
+            opacity: 1;
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-0.6vw) scale(1.06);
+            border-color: rgba(196, 181, 253, 0.35);
+            box-shadow: 0 1.2vw 3vw rgba(139, 92, 246, 0.28);
+        }
+        
+        .stat-number {
+            font-size: 2.6vw;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--purple-100), var(--purple-300));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stat-label {
+            font-size: 0.9vw;
+            color: rgba(255, 255, 255, 0.5);
+            margin-top: 0.5vw;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .icon-box {
+            width: 4.5vw;
+            height: 4.5vw;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(99, 102, 241, 0.08));
+            border-radius: 1.2vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2vw;
+            margin-bottom: 1vw;
+            border: 1px solid rgba(196, 181, 253, 0.18);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0.4vw 1.5vw rgba(139, 92, 246, 0.15);
+        }
+        
+        .icon-box:hover {
+            transform: rotate(8deg) scale(1.15);
+            box-shadow: 0 0.8vw 2.5vw rgba(139, 92, 246, 0.35);
+        }
+        
+        .controls {
+            position: fixed;
+            bottom: 2.2vw;
+            right: 2.2vw;
+            display: flex;
+            gap: 0.9vw;
+            z-index: 1000;
+        }
+        
+        button {
+            background: linear-gradient(135deg, 
+                rgba(139, 92, 246, 0.12), 
+                rgba(99, 102, 241, 0.08));
+            backdrop-filter: blur(40px);
+            border: 1px solid rgba(196, 181, 253, 0.18);
+            color: #fff;
+            width: 3.2vw;
+            height: 3.2vw;
+            font-size: 1.2vw;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0.6vw 1.8vw rgba(139, 92, 246, 0.18);
+        }
+        
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(233, 213, 255, 0.25), transparent);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.7s ease, height 0.7s ease;
+        }
+        
+        button:hover::before {
+            width: 400%;
+            height: 400%;
+        }
+        
+        button:hover {
+            transform: translateY(-0.4vw) scale(1.15);
+            border-color: rgba(233, 213, 255, 0.45);
+            box-shadow: 
+                0 1.2vw 2.5vw rgba(139, 92, 246, 0.35),
+                0 0 2.5vw rgba(167, 139, 250, 0.5);
+        }
+        
+        button:active {
+            transform: translateY(0) scale(0.95);
+        }
+        
+        .slide-number {
+            position: fixed;
+            bottom: 2.2vw;
+            left: 2.2vw;
+            font-size: 0.95vw;
+            color: rgba(255, 255, 255, 0.28);
+            z-index: 1000;
+            font-weight: 500;
+            font-variant-numeric: tabular-nums;
+            padding: 0.7vw 1.1vw;
+            background: rgba(8, 8, 16, 0.7);
+            border: 1px solid rgba(139, 92, 246, 0.12);
+            border-radius: 2vw;
+            backdrop-filter: blur(30px);
+        }
+        
+        .progress-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 0.2vw;
+            background: linear-gradient(90deg, var(--purple-500), var(--purple-400), var(--purple-300));
+            transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 9999;
+            box-shadow: 0 0 2vw var(--purple-400);
+        }
+        
+        .center-content {
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .floating {
+            animation: float 10s ease-in-out infinite;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin: 1.1vw 0;
+            padding-left: 1.8vw;
+            border-left: 0.12vw solid rgba(196, 181, 253, 0.18);
+            transition: all 0.35s ease;
+        }
+        
+        .timeline-item:hover {
+            border-left-color: rgba(196, 181, 253, 0.45);
+        }
+        
+        .timeline-dot {
+            width: 0.9vw;
+            height: 0.9vw;
+            background: linear-gradient(135deg, var(--purple-300), var(--purple-500));
+            border-radius: 50%;
+            margin-left: -2.4vw;
+            margin-right: 1.1vw;
+            margin-top: 0.3vw;
+            box-shadow: 0 0 1.8vw var(--purple-400);
+            transition: all 0.35s ease;
+        }
+        
+        .timeline-item:hover .timeline-dot {
+            transform: scale(1.4);
+            box-shadow: 0 0 2.5vw var(--purple-400);
+        }
+        
+        .comparison-table {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr 1fr;
+            gap: 0.4vw;
+            margin: 1.4vw 0;
+        }
+        
+        .table-header {
+            font-weight: 700;
+            color: var(--purple-300);
+            padding: 0.75vw;
+            text-align: center;
+            font-size: 0.85vw;
+            background: rgba(139, 92, 246, 0.08);
+            border-radius: 0.6vw;
+            border: 1px solid rgba(196, 181, 253, 0.12);
+        }
+        
+        .table-cell {
+            padding: 0.7vw;
+            text-align: center;
+            font-size: 0.8vw;
+            background: rgba(8, 8, 16, 0.5);
+            border-radius: 0.6vw;
+            border: 1px solid rgba(139, 92, 246, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .table-cell:hover {
+            background: rgba(139, 92, 246, 0.06);
+            border-color: rgba(196, 181, 253, 0.15);
+        }
+        
+        .feature-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.04), rgba(99, 102, 241, 0.025));
+            padding: 1.4vw;
+            border-radius: 1.2vw;
+            border: 1px solid rgba(196, 181, 253, 0.08);
+            transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .feature-card:hover {
+            border-color: rgba(196, 181, 253, 0.25);
+            transform: translateY(-0.4vw);
+            box-shadow: 0 0.8vw 2vw rgba(139, 92, 246, 0.2);
+        }
+        
+        /* New premium elements */
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(196, 181, 253, 0.2), transparent);
+            margin: 2vw 0;
+        }
+        
+        .glow-box {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(99, 102, 241, 0.05));
+            padding: 1.5vw;
+            border-radius: 1.2vw;
+            border: 1px solid rgba(196, 181, 253, 0.15);
+            box-shadow: 0 0 2vw rgba(139, 92, 246, 0.15);
+        }
+        
+        .metric-box {
+            text-align: center;
+            padding: 1.2vw;
+            background: rgba(139, 92, 246, 0.04);
+            border-radius: 1vw;
+            border: 1px solid rgba(196, 181, 253, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+    
+    <div class="slide-container" id="slideContainer">
+        <div class="progress-bar" id="progressBar"></div>
+        <div class="bg-grid"></div>
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+        
+        <!-- Slide 1: Welcome -->
+        <div class="slide active">
+            <div class="content center-content">
+                <h1 class="floating gradient-text">STIN</h1>
+                <p class="subtitle">Learn. Invest. Compete.</p>
+                <p style="font-size: 0.85vw; margin-top: 3vw; opacity: 0.35; letter-spacing: 0.4em; text-transform: uppercase;">Stock Trading & Investment Network</p>
+                
+                <div class="stat-grid" style="margin-top: 4.5vw; max-width: 52vw; margin-left: auto; margin-right: auto;">
+                    <div class="stat-box">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Elite Competitions</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">$5K+</div>
+                        <div class="stat-label">Prize Pool</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">20K+</div>
+                        <div class="stat-label">Global Participants</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 2: Why Join STIN -->
+        <div class="slide">
+            <div class="content center-content">
+                <h2>Why Join <span class="highlight">STIN?</span></h2>
+                <p class="subtitle">Transform Your Financial Future</p>
+                
+                <div class="grid" style="grid-template-columns: repeat(3, 1fr); max-width: 75vw; margin: 3vw auto;">
+                    <div class="card card-3d" style="text-align: center;">
+                        <div class="icon-box" style="margin-left: auto; margin-right: auto;">💰</div>
+                        <h3>Win Real Money</h3>
+                        <p>Compete for thousands in prizes and paid internships</p>
+                    </div>
+                    
+                    <div class="card card-3d" style="text-align: center;">
+                        <div class="icon-box" style="margin-left: auto; margin-right: auto;">🎓</div>
+                        <h3>College Advantage</h3>
+                        <p>Prestigious achievements that stand out on applications</p>
+                    </div>
+                    
+                    <div class="card card-3d" style="text-align: center;">
+                        <div class="icon-box" style="margin-left: auto; margin-right: auto;">🧠</div>
+                        <h3>Master Skills</h3>
+                        <p>Investing, economics, and financial analysis expertise</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 3: Stock Market 101 -->
+        <div class="slide">
+            <div class="content">
+                <h2>Market <span class="highlight">Fundamentals</span></h2>
+                
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="card">
+                            <h3>What is a Stock?</h3>
+                            <p>A share of ownership in a publicly traded company</p>
+                        </div>
+                        
+                        <div class="card">
+                            <h3>Profit Strategies</h3>
+                            <ul>
+                                <li>Capital Gains: Buy low, sell high</li>
+                                <li>Dividends: Passive income payments</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="viz-container">
+                        <h3 style="margin-top: 0;">Performance Example</h3>
+                        <div style="margin-top: 1.4vw;">
+                            <p style="font-size: 0.85vw; margin-bottom: 0.4vw;">Entry: $50</p>
+                            <div class="bar" style="width: 50%; background: linear-gradient(90deg, rgba(139, 92, 246, 0.35), rgba(167, 139, 250, 0.25));"></div>
+                            
+                            <p style="font-size: 0.85vw; margin-bottom: 0.4vw; margin-top: 1.4vw;">Exit: $75</p>
+                            <div class="bar" style="width: 75%;"></div>
+                            
+                            <p style="font-size: 1.1vw; margin-top: 1.4vw; color: var(--purple-300); font-weight: 700;">Profit: $25 per share (50% ROI)</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid" style="grid-template-columns: 1fr 1fr; margin-top: 0.9vw;">
+                    <div class="card">
+                        <h3>📈 Bull Market</h3>
+                        <p>Rising prices, strong investor confidence</p>
+                    </div>
+                    <div class="card">
+                        <h3>📉 Bear Market</h3>
+                        <p>Falling prices, defensive positioning</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Your Learning Path -->
+        <div class="slide">
+            <div class="content">
+                <h2>Your <span class="highlight">Journey</span></h2>
+                <p class="subtitle">Beginner to Competitor in One Semester</p>
+                
+                <div class="grid" style="grid-template-columns: 1fr 2fr;">
+                    <div class="viz-container">
+                        <h3 style="margin-top: 0; text-align: center;">Timeline</h3>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div>
+                                <p style="font-size: 0.85vw; font-weight: 600;">Week 1-2</p>
+                                <p style="font-size: 0.75vw; opacity: 0.6;">Foundations</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div>
+                                <p style="font-size: 0.85vw; font-weight: 600;">Week 3-5</p>
+                                <p style="font-size: 0.75vw; opacity: 0.6;">Analysis</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div>
+                                <p style="font-size: 0.85vw; font-weight: 600;">Week 6-8</p>
+                                <p style="font-size: 0.75vw; opacity: 0.6;">Strategy</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-dot"></div>
+                            <div>
+                                <p style="font-size: 0.85vw; font-weight: 600;">Week 9-12</p>
+                                <p style="font-size: 0.75vw; opacity: 0.6;">Compete</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="card" style="margin-bottom: 0.9vw;">
+                            <h3>Phase 1: Foundations</h3>
+                            <p style="font-size: 0.9vw;">Master market basics, terminology, and mechanics</p>
+                        </div>
+                        
+                        <div class="card" style="margin-bottom: 0.9vw;">
+                            <h3>Phase 2: Analysis</h3>
+                            <p style="font-size: 0.9vw;">Financial statements, valuation, and opportunity assessment</p>
+                        </div>
+                        
+                        <div class="card" style="margin-bottom: 0.9vw;">
+                            <h3>Phase 3: Strategy</h3>
+                            <p style="font-size: 0.9vw;">Portfolio construction, risk management, winning tactics</p>
+                        </div>
+                        
+                        <div class="card">
+                            <h3>Phase 4: Compete</h3>
+                            <p style="font-size: 0.9vw;">Apply skills in competitions, pitch ideas, win prizes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5: Wharton -->
+        <div class="slide">
+            <div class="content">
+                <h2>Wharton <span class="highlight">Competition</span></h2>
+                <p class="subtitle">The Most Prestigious Investment Challenge</p>
+                
+                <div class="grid" style="grid-template-columns: 2fr 1fr;">
+                    <div>
+                        <div class="card">
+                            <div class="big-number">9,000+</div>
+                            <p style="font-size: 1.05vw; margin-bottom: 1.4vw;">Global participants compete annually</p>
+                            <ul>
+                                <li>Teams of 4-7 students</li>
+                                <li>$100,000 virtual portfolio</li>
+                                <li>10 weeks of strategic trading</li>
+                                <li>Strategy-based judging (not just returns)</li>
+                            </ul>
+                        </div>
+                        
+                        <div style="margin-top: 0.9vw;">
+                            <span class="tag">Registration: June 17</span>
+                            <span class="tag">Duration: 10 weeks</span>
+                            <span class="tag">Finals: Philadelphia</span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="viz-container">
+                            <h3 style="margin-top: 0; text-align: center;">Journey</h3>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div>
+                                    <p style="font-size: 0.85vw; font-weight: 600;">Register</p>
+                                    <p style="font-size: 0.75vw; opacity: 0.5;">June 17</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div>
+                                    <p style="font-size: 0.85vw; font-weight: 600;">Compete</p>
+                                    <p style="font-size: 0.75vw; opacity: 0.5;">10 weeks</p>
+                                </div>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div>
+                                    <p style="font-size: 0.85vw; font-weight: 600;">Finals</p>
+                                    <p style="font-size: 0.75vw; opacity: 0.5;">Wharton</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card" style="margin-top: 0.9vw;">
+                            <h3 style="margin-top: 0;">The Prize</h3>
+                            <p style="font-size: 1.05vw;"><span class="highlight">Global Finale</span> at Wharton</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6: JA Challenge -->
+        <div class="slide">
+            <div class="content">
+                <h2>JA Market <span class="highlight">Challenge</span></h2>
+                <p class="subtitle">High-Velocity Live Trading Simulation</p>
+                
+                <div class="card" style="text-align: center; margin-bottom: 1.4vw;">
+                    <div class="big-number gradient-text">60 seconds = 1 trading day</div>
+                    <p style="font-size: 1.05vw;">Experience NYSE floor intensity</p>
+                </div>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h3>Format</h3>
+                        <ul>
+                            <li>$500K-$1M virtual capital</li>
+                            <li>90 trading days in 2 hours</li>
+                            <li>Real-time market events</li>
+                            <li>Breaking news reactions</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="viz-container">
+                        <h3 style="margin-top: 0;">Time Compression</h3>
+                        <div style="margin-top: 0.9vw;">
+                            <p style="font-size: 0.85vw; margin-bottom: 0.4vw;">Real Time: 2 hours</p>
+                            <div class="bar" style="width: 20%;"></div>
+                            
+                            <p style="font-size: 0.85vw; margin-bottom: 0.4vw; margin-top: 0.9vw;">Simulated: 90 days</p>
+                            <div class="bar" style="width: 100%;"></div>
+                            
+                            <p style="font-size: 0.95vw; margin-top: 0.9vw; color: var(--purple-300); font-weight: 600;">45x speed multiplier</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Rewards</h3>
+                        <ul>
+                            <li>Championship trophies</li>
+                            <li>National recognition</li>
+                            <li>Finals qualification</li>
+                            <li>1st-3rd place honors</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: Economics Challenge -->
+        <div class="slide">
+            <div class="content">
+                <h2>Economics <span class="highlight">Challenge</span></h2>
+                <p class="subtitle">America's Premier Economics Competition</p>
+                
+                <div class="grid" style="grid-template-columns: 1fr 2fr;">
+                    <div>
+                        <div class="stat-box" style="height: 100%;">
+                            <div class="stat-number">10.5K+</div>
+                            <div class="stat-label">Annual Participants</div>
+                            <div class="stat-number" style="font-size: 1.9vw; margin-top: 1.8vw;">45+</div>
+                            <div class="stat-label">States Represented</div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="card">
+                            <h3>Competition Areas</h3>
+                            <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 0.9vw;">
+                                <div>
+                                    <p style="font-size: 0.9vw; margin: 0.4vw 0;">📊 Microeconomics</p>
+                                    <div class="bar" style="width: 85%; height: 0.75vw;"></div>
+                                </div>
+                                <div>
+                                    <p style="font-size: 0.9vw; margin: 0.4vw 0;">📈 Macroeconomics</p>
+                                    <div class="bar" style="width: 90%; height: 0.75vw;"></div>
+                                </div>
+                                <div>
+                                    <p style="font-size: 0.9vw; margin: 0.4vw 0;">🌍 International</p>
+                                    <div class="bar" style="width: 75%; height: 0.75vw;"></div>
+                                </div>
+                                <div>
+                                    <p style="font-size: 0.9vw; margin: 0.4vw 0;">📰 Current Events</p>
+                                    <div class="bar" style="width: 80%; height: 0.75vw;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid" style="margin-top: 0.9vw;">
+                    <div class="card" style="text-align: center;">
+                        <h3>Grand Prize</h3>
+                        <div class="big-number gradient-text" style="font-size: 1.9vw;">$1,000</div>
+                        <p>+ All-expense trip to Atlanta</p>
+                    </div>
+                    <div class="card">
+                        <h3>Schedule</h3>
+                        <p style="font-size: 0.85vw; margin: 0.4vw 0;">Semi-Finals: April 21-24 (Online)</p>
+                        <p style="font-size: 0.85vw; margin: 0.4vw 0;">Finals: May 28-30 (Atlanta)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8: Competition Comparison -->
+        <div class="slide">
+            <div class="content">
+                <h2>Competition <span class="highlight">Overview</span></h2>
+                <p class="subtitle">Find Your Perfect Match</p>
+                
+                <div class="comparison-table">
+                    <div class="table-header">Feature</div>
+                    <div class="table-header">Wharton</div>
+                    <div class="table-header">JA Challenge</div>
+                    <div class="table-header">Economics</div>
+                    
+                    <div class="table-cell" style="font-weight: 600;">Duration</div>
+                    <div class="table-cell">10 weeks</div>
+                    <div class="table-cell">2 hours</div>
+                    <div class="table-cell">Year-round</div>
+                    
+                    <div class="table-cell" style="font-weight: 600;">Team Size</div>
+                    <div class="table-cell">4-7 members</div>
+                    <div class="table-cell">Varies</div>
+                    <div class="table-cell">Up to 4</div>
+                    
+                    <div class="table-cell" style="font-weight: 600;">Focus</div>
+                    <div class="table-cell">Strategy</div>
+                    <div class="table-cell">Speed Trading</div>
+                    <div class="table-cell">Theory</div>
+                    
+                    <div class="table-cell" style="font-weight: 600;">Virtual Capital</div>
+                    <div class="table-cell">$100,000</div>
+                    <div class="table-cell">$500K-$1M</div>
+                    <div class="table-cell">N/A</div>
+                    
+                    <div class="table-cell" style="font-weight: 600;">Prize Type</div>
+                    <div class="table-cell">Finale Trip</div>
+                    <div class="table-cell">Trophies</div>
+                    <div class="table-cell">$1K + Trip</div>
+                    
+                    <div class="table-cell" style="font-weight: 600;">Format</div>
+                    <div class="table-cell">Hybrid</div>
+                    <div class="table-cell">Live Event</div>
+                    <div class="table-cell">Quiz Bowl</div>
+                </div>
+                
+                <div class="grid" style="margin-top: 1.4vw; grid-template-columns: repeat(3, 1fr);">
+                    <div class="feature-card">
+                        <h3 style="margin-top: 0;">Best For Strategy</h3>
+                        <p style="font-size: 0.85vw;">Wharton - Deep analysis & long-term planning</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 style="margin-top: 0;">Best For Adrenaline</h3>
+                        <p style="font-size: 0.85vw;">JA - Fast-paced high-energy excitement</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3 style="margin-top: 0;">Best For Knowledge</h3>
+                        <p style="font-size: 0.85vw;">Economics - Master economic principles</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 9: Choose Your Path -->
+        <div class="slide">
+            <div class="content">
+                <h2>Choose Your <span class="highlight">Path</span></h2>
+                
+                <div class="grid">
+                    <div class="card card-3d">
+                        <div class="big-number">01</div>
+                        <h3>Wharton</h3>
+                        <p>Strategic portfolio management & analysis</p>
+                        <div class="viz-container" style="margin-top: 0.9vw;">
+                            <p style="font-size: 0.75vw; opacity: 0.5;">Duration</p>
+                            <div class="bar" style="width: 70%; height: 0.9vw;"></div>
+                            <p style="font-size: 0.75vw; margin-top: 0.4vw;">10 weeks</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card card-3d">
+                        <div class="big-number">02</div>
+                        <h3>JA Challenge</h3>
+                        <p>High-velocity live trading experience</p>
+                        <div class="viz-container" style="margin-top: 0.9vw;">
+                            <p style="font-size: 0.75vw; opacity: 0.5;">Duration</p>
+                            <div class="bar" style="width: 15%; height: 0.9vw;"></div>
+                            <p style="font-size: 0.75vw; margin-top: 0.4vw;">2 hours</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card card-3d">
+                        <div class="big-number">03</div>
+                        <h3>Economics</h3>
+                        <p>Master economic theory & compete</p>
+                        <div class="viz-container" style="margin-top: 0.9vw;">
+                            <p style="font-size: 0.75vw; opacity: 0.5;">Duration</p>
+                            <div class="bar" style="width: 100%; height: 0.9vw;"></div>
+                            <p style="font-size: 0.75vw; margin-top: 0.4vw;">Year-round</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <p style="text-align: center; font-size: 1.7vw; margin-top: 1.8vw; font-weight: 800;">
+                    <span class="highlight gradient-text">Why limit yourself? Compete in all three.</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Slide 10: Strategy -->
+        <div class="slide">
+            <div class="content">
+                <h2>Winning <span class="highlight">Strategy</span></h2>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h3>Pre-Competition</h3>
+                        <ul>
+                            <li>Analyze past winner strategies</li>
+                            <li>Build complementary teams</li>
+                            <li>Daily platform practice</li>
+                            <li>Follow financial markets</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="viz-container">
+                        <h3 style="margin-top: 0;">Success Factors</h3>
+                        <div style="margin-top: 0.9vw;">
+                            <p style="font-size: 0.8vw; margin-bottom: 0.3vw;">Strategy & Research</p>
+                            <div class="bar" style="width: 90%; height: 0.9vw;"></div>
+                            
+                            <p style="font-size: 0.8vw; margin-bottom: 0.3vw; margin-top: 0.75vw;">Team Collaboration</p>
+                            <div class="bar" style="width: 85%; height: 0.9vw;"></div>
+                            
+                            <p style="font-size: 0.8vw; margin-bottom: 0.3vw; margin-top: 0.75vw;">Market Knowledge</p>
+                            <div class="bar" style="width: 80%; height: 0.9vw;"></div>
+                            
+                            <p style="font-size: 0.8vw; margin-bottom: 0.3vw; margin-top: 0.75vw;">Composure</p>
+                            <div class="bar" style="width: 75%; height: 0.9vw;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>During Competition</h3>
+                        <ul>
+                            <li>Maintain composure</li>
+                            <li>Diversify portfolio</li>
+                            <li>Document decisions</li>
+                            <li>Team communication</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="glow-box" style="margin-top: 0.9vw; text-align: center;">
+                    <p style="font-size: 1.1vw;">Stay calm. <span class="highlight">Execute strategy.</span> Learn continuously.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 11: Tools & Resources -->
+        <div class="slide">
+            <div class="content">
+                <h2>Tools & <span class="highlight">Resources</span></h2>
+                <p class="subtitle">Premium Access for Excellence</p>
+                
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div>
+                        <div class="card">
+                            <h3>Trading Platforms</h3>
+                            <ul>
+                                <li>Investopedia Simulator</li>
+                                <li>MarketWatch Virtual Exchange</li>
+                                <li>Wharton Investment Simulator</li>
+                                <li>Think or Swim Paper Trading</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="card">
+                            <h3>Market Intelligence</h3>
+                            <ul>
+                                <li>Bloomberg Terminal (BPL)</li>
+                                <li>Wall Street Journal</li>
+                                <li>CNBC & Financial Times</li>
+                                <li>Seeking Alpha Analytics</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="card">
+                            <h3>Learning Resources</h3>
+                            <ul>
+                                <li>Investopedia Academy</li>
+                                <li>Khan Academy Finance</li>
+                                <li>YouTube Finance Channels</li>
+                                <li>Essential Books & Podcasts</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="card">
+                            <h3>Research Tools</h3>
+                            <ul>
+                                <li>SEC Edgar Database</li>
+                                <li>Company Financials (10-K, 10-Q)</li>
+                                <li>Economic Calendars</li>
+                                <li>Industry Reports</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 12: Timeline -->
+        <div class="slide">
+            <div class="content">
+                <h2>Annual <span class="highlight">Timeline</span></h2>
+                
+                <div class="grid" style="grid-template-columns: repeat(2, 1fr); gap: 1.1vw;">
+                    <div class="card" style="padding: 1.4vw;">
+                        <h3 style="margin-top: 0;">☀️ Summer</h3>
+                        <p style="font-size: 0.9vw; margin-bottom: 0.3vw;">June 17: Wharton registration</p>
+                        <p style="opacity: 0.5; font-size: 0.8vw;">Form teams & prepare</p>
+                    </div>
+                    
+                    <div class="card" style="padding: 1.4vw;">
+                        <h3 style="margin-top: 0;">🍂 Fall</h3>
+                        <p style="font-size: 0.9vw; margin-bottom: 0.3vw;">September: Wharton begins</p>
+                        <p style="opacity: 0.5; font-size: 0.8vw;">10-week competition</p>
+                    </div>
+                    
+                    <div class="card" style="padding: 1.4vw;">
+                        <h3 style="margin-top: 0;">❄️ Winter</h3>
+                        <p style="font-size: 0.9vw; margin-bottom: 0.3vw;">Jan-Mar: State competitions</p>
+                        <p style="opacity: 0.5; font-size: 0.8vw;">Economics & JA regionals</p>
+                    </div>
+                    
+                    <div class="card" style="padding: 1.4vw;">
+                        <h3 style="margin-top: 0;">🌸 Spring</h3>
+                        <p style="font-size: 0.9vw; margin-bottom: 0.3vw;">April-May: National finals</p>
+                        <p style="opacity: 0.5; font-size: 0.8vw;">Atlanta & Philadelphia</p>
+                    </div>
+                </div>
+                
+                <div class="viz-container" style="margin-top: 1.1vw; padding: 1.4vw;">
+                    <h3 style="margin-top: 0; font-size: 1vw;">Competition Calendar</h3>
+                    <div style="display: flex; justify-content: space-between; margin-top: 0.9vw; align-items: flex-end;">
+                        <div style="text-align: center; flex: 1;">
+                            <p style="font-size: 0.7vw; opacity: 0.5;">JUN-SEP</p>
+                            <div style="height: 5.5vw; background: linear-gradient(to top, var(--purple-500), rgba(139, 92, 246, 0.3)); border-radius: 0.5vw; margin: 0.4vw 0.75vw; box-shadow: 0 0 1.8vw var(--purple-500);"></div>
+                            <p style="font-size: 0.7vw;">Wharton</p>
+                        </div>
+                        <div style="text-align: center; flex: 1;">
+                            <p style="font-size: 0.7vw; opacity: 0.5;">JAN-MAR</p>
+                            <div style="height: 3.8vw; background: linear-gradient(to top, var(--purple-600), rgba(99, 102, 241, 0.3)); border-radius: 0.5vw; margin: 0.4vw 0.75vw; box-shadow: 0 0 1.8vw var(--purple-600);"></div>
+                            <p style="font-size: 0.7vw;">Regionals</p>
+                        </div>
+                        <div style="text-align: center; flex: 1;">
+                            <p style="font-size: 0.7vw; opacity: 0.5;">APR-MAY</p>
+                            <div style="height: 4.6vw; background: linear-gradient(to top, var(--purple-400), rgba(167, 139, 250, 0.3)); border-radius: 0.5vw; margin: 0.4vw 0.75vw; box-shadow: 0 0 1.8vw var(--purple-400);"></div>
+                            <p style="font-size: 0.7vw;">Finals</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 13: STIN Support -->
+        <div class="slide">
+            <div class="content">
+                <h2>STIN <span class="highlight">Advantage</span></h2>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h3>Weekly Sessions</h3>
+                        <ul>
+                            <li>Investment strategy workshops</li>
+                            <li>Economic principles mastery</li>
+                            <li>Live market analysis</li>
+                            <li>Mock competitions</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>Premium Resources</h3>
+                        <ul>
+                            <li>Expert team formation</li>
+                            <li>Curated study materials</li>
+                            <li>Industry guest speakers</li>
+                            <li>Personal mentorship</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="glow-box" style="margin-top: 0.9vw;">
+                    <h3 style="margin-top: 0;">Practice Competition</h3>
+                    <div class="grid" style="grid-template-columns: repeat(3, 1fr); margin-top: 0.9vw;">
+                        <div class="metric-box">
+                            <div class="stat-number" style="font-size: 1.9vw;">4</div>
+                            <p style="font-size: 0.85vw; opacity: 0.5;">Weeks</p>
+                        </div>
+                        <div class="metric-box">
+                            <div class="stat-number" style="font-size: 1.9vw;">$50K</div>
+                            <p style="font-size: 0.85vw; opacity: 0.5;">Virtual Portfolio</p>
+                        </div>
+                        <div class="metric-box">
+                            <div class="stat-number" style="font-size: 1.9vw;">🏆</div>
+                            <p style="font-size: 0.85vw; opacity: 0.5;">Real Prizes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+          <div class="slide">
+            <div class="content">
+                <h2>Join the <span class="highlight">Elite</span></h2>
+                <p class="subtitle" style="margin-bottom: 1.2vw;">A Community of Future Leaders</p>
+                
+                <div class="grid" style="grid-template-columns: repeat(2, 1fr); gap: 1vw;">
+                    <div class="card card-3d" style="padding: 1.3vw;">
+                        <div class="icon-box" style="width: 3.2vw; height: 3.2vw; font-size: 1.6vw; margin-bottom: 0.6vw;">🌐</div>
+                        <h3 style="margin: 0.6vw 0 0.5vw 0;">Global Network</h3>
+                        <p style="font-size: 0.9vw; margin-bottom: 0.6vw;">Connect with students from top schools worldwide</p>
+                        <div class="divider" style="margin: 0.8vw 0;"></div>
+                        <p style="font-size: 0.8vw; opacity: 0.7; margin-bottom: 0;">Alumni at Harvard, Princeton</p>
+                    </div>
+                    
+                    <div class="card card-3d" style="padding: 1.3vw;">
+                        <div class="icon-box" style="width: 3.2vw; height: 3.2vw; font-size: 1.6vw; margin-bottom: 0.6vw;">🎯</div>
+                        <h3 style="margin: 0.6vw 0 0.5vw 0;">Mentorship Program</h3>
+                        <p style="font-size: 0.9vw; margin-bottom: 0.6vw;">Learn from experienced traders and past winners</p>
+                        <div class="divider" style="margin: 0.8vw 0;"></div>
+                        <p style="font-size: 0.8vw; opacity: 0.7; margin-bottom: 0;">One-on-one guidance from competition veterans</p>
+                    </div>
+                    
+                    <div class="card card-3d" style="padding: 1.3vw;">
+                        <div class="icon-box" style="width: 3.2vw; height: 3.2vw; font-size: 1.6vw; margin-bottom: 0.6vw;">📚</div>
+                        <h3 style="margin: 0.6vw 0 0.5vw 0;">Exclusive Content</h3>
+                        <p style="font-size: 0.9vw; margin-bottom: 0.6vw;">Premium research, reports, and market insights</p>
+                        <div class="divider" style="margin: 0.8vw 0;"></div>
+                        <p style="font-size: 0.8vw; opacity: 0.7; margin-bottom: 0;">Weekly market analyses & investment newsletters</p>
+                    </div>
+                    
+                    <div class="card card-3d" style="padding: 1.3vw;">
+                        <div class="icon-box" style="width: 3.2vw; height: 3.2vw; font-size: 1.6vw; margin-bottom: 0.6vw;">🏆</div>
+                        <h3 style="margin: 0.6vw 0 0.5vw 0;">Competition Support</h3>
+                        <p style="font-size: 0.9vw; margin-bottom: 0.6vw;">Strategy sessions, mock competitions, team coaching</p>
+                        <div class="divider" style="margin: 0.8vw 0;"></div>
+                        <p style="font-size: 0.8vw; opacity: 0.7; margin-bottom: 0;">Dedicated support for all three competitions</p>
+                    </div>
+                </div>
+                
+                <div class="glow-box" style="margin-top: 1vw; text-align: center; padding: 1.2vw;">
+                    <h3 style="margin: 0 0 0.4vw 0;">Limited Spots Available</h3>
+                    <p style="font-size: 0.95vw; margin-bottom: 0;">Join an exclusive community committed to excellence</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 15: Get Started -->
+        <div class="slide">
+            <div class="content center-content">
+                <h2>Begin Your <span class="highlight gradient-text">Journey</span></h2>
+                
+                <div class="card" style="margin: 1.8vw auto; max-width: 46vw; text-align: left;">
+                    <h3>Immediate Action Items</h3>
+                    <ul style="margin-top: 0.9vw;">
+                        <li>Join STIN communications channel</li>
+                        <li>Create Investopedia trading account</li>
+                        <li>Research one target competition</li>
+                        <li>Connect with potential teammates</li>
+                    </ul>
+                </div>
+                
+                <div class="stat-grid" style="max-width: 52vw; margin: 1.8vw auto;">
+                    <div class="stat-box">
+                        <div class="stat-number">📚</div>
+                        <div class="stat-label">Learn</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">💼</div>
+                        <div class="stat-label">Invest</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-number">🏆</div>
+                        <div class="stat-label">Compete</div>
+                    </div>
+                </div>
+                
+                <p style="font-size: 1.9vw; margin-top: 1.8vw; font-weight: 900;" class="floating">
+                    <span class="highlight gradient-text">Your future starts now.</span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide-number">
+        <span id="current-slide">1</span> / <span id="total-slides">15</span>
+    </div>
+
+    <div class="controls">
+        <button onclick="previousSlide()" title="Previous">←</button>
+        <button onclick="nextSlide()" title="Next">→</button>
+        <button onclick="toggleFullscreen()" class="fullscreen-btn" title="Fullscreen">⛶</button>
+    </div>
+
+    <script>
+        // Ultra-smooth custom cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+        
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let followerX = 0, followerY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        function animateCursor() {
+            // Smooth cursor movement
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            cursor.style.left = cursorX + 'px';
+            cursor.style.top = cursorY + 'px';
+            
+            // Smooth follower movement
+            followerX += (mouseX - followerX) * 0.1;
+            followerY += (mouseY - followerY) * 0.1;
+            cursorFollower.style.left = followerX + 'px';
+            cursorFollower.style.top = followerY + 'px';
+            
+            requestAnimationFrame(animateCursor);
+        }
+        
+        animateCursor();
+        
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        const progressBar = document.getElementById('progressBar');
+        const slideContainer = document.getElementById('slideContainer');
+        
+        document.getElementById('total-slides').textContent = totalSlides;
+        updateProgressBar();
+        
+        function updateProgressBar() {
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = progress + '%';
+        }
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            updateProgressBar();
+        }
+        
+        function nextSlide() {
+            showSlide(currentSlide + 1);
+        }
+        
+        function previousSlide() {
+            showSlide(currentSlide - 1);
+        }
+        
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                slideContainer.requestFullscreen().catch(err => {
+                    alert(`Error: ${err.message}`);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        }
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                previousSlide();
+            } else if (e.key === 'f' || e.key === 'F') {
+                toggleFullscreen();
+            } else if (e.key === 'Escape') {
+                if (document.fullscreenElement) {
+                    document.exitFullscreen();
+                }
+            }
+        });
+        
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50) {
+                nextSlide();
+            } else if (touchEndX - touchStartX > 50) {
+                previousSlide();
+            }
+        });
+        
+        // Cursor interactions
+        document.querySelectorAll('button, .card, .stat-box').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.5)';
+                cursorFollower.style.transform = 'scale(1.5)';
+            });
+            el.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursorFollower.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
